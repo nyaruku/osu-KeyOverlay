@@ -27,20 +27,13 @@ namespace Programm
         private SaveManager.SaveManager sm = new SaveManager.SaveManager();
         public float deltaTime;
         public Slider SpeedSlider;
+        public Camera MainCamera;
+        public Color BGcolor;
+
         public void OverrideKeyText()
         {
             key1.text = "K1: " + K1;
             key2.text = "K2: " + K2;
-        
-        }
-
-        public void SaveSettings()
-        {
-            SaveManager.SaveManager sm = new SaveManager.SaveManager();
-            sm.Clear_Data();
-            sm.AddKey("k1", K1);
-            sm.AddKey("k2", K2);
-            sm.Save_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
         }
 
         public void SetKey(int k, string key)
@@ -48,27 +41,16 @@ namespace Programm
             switch (k)
             {
                 case 1:
-                    sm.Clear_Data();
-                    sm.AddKey("k1", key);
-                    sm.AddKey("k2", K2);
-                    sm.AddKey("speed", speed);
                     K1 = key;
                     ScriptComponent.GetComponent<watcher>().Key1 = K1;
-                    Directory.CreateDirectory(rootDrive + "\\osu!keyoverlay\\");
-                    sm.Save_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
-                    OverrideKeyText();
+                    SaveSettings();
                     break;
 
                 case 2:
-                    sm.Clear_Data();
-                    sm.AddKey("k1", K1);
-                    sm.AddKey("k2", key);
-                    sm.AddKey("speed", speed);
+
                     K2 = key;
                     ScriptComponent.GetComponent<watcher>().Key2 = K2;
-                    Directory.CreateDirectory(rootDrive + "\\osu!keyoverlay\\");
-                    sm.Save_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
-                    OverrideKeyText();
+                    SaveSettings();
                     break;
             }
         }
@@ -92,30 +74,11 @@ namespace Programm
             rootDrive = Path.GetPathRoot(Environment.SystemDirectory);
             if (File.Exists(rootDrive + "\\osu!keyoverlay\\settings.txt"))
             {
-                sm.Read_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
-                K1 = sm.GetKey("k1");
-                K2 = sm.GetKey("k2");
-                speed = sm.GetKey_float("speed");
-                SpeedSlider.value = speed;
-                ScriptComponent.GetComponent<watcher>().Key1 = K1;
-                ScriptComponent.GetComponent<watcher>().Key2 = K2;
-                OverrideKeyText();
+                LoadSettings();
             }
             else
             {
-                sm.Clear_Data();
-                sm.AddKey("k1", "X");
-                sm.AddKey("k2", "Y");
-                speed = 0.1f;
-                SpeedSlider.value = speed;
-                sm.AddKey("speed", speed);
-                K1 = "X";
-                K2 = "Y";
-                ScriptComponent.GetComponent<watcher>().Key1 = K1;
-                ScriptComponent.GetComponent<watcher>().Key2 = K2;
-                Directory.CreateDirectory(rootDrive + "\\osu!keyoverlay\\");
-                sm.Save_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
-                OverrideKeyText();
+                CreateSettings();
             }
         }
 
@@ -125,8 +88,8 @@ namespace Programm
             deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
             float fps = 1.0f / deltaTime;
 
-            debugt.text = "Res: " + Screen.width + "x" + Screen.height + Environment.NewLine + "FPS: " +  Mathf.Ceil(fps).ToString();
-            DebugContainer.SetActive(DebugToggle.isOn);
+            debugt.text = "Res: " + Screen.width + "x" + Screen.height + Environment.NewLine + "FPS: " + Mathf.Ceil(fps).ToString();
+           
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 if (settings == false)
@@ -160,14 +123,68 @@ namespace Programm
 
         public void SaveSpeed()
         {
+            SaveSettings();
+        }
+
+        public void SaveSettings()
+        {
             sm.Clear_Data();
             sm.AddKey("k1", K1);
             sm.AddKey("k2", K2);
             sm.AddKey("speed", speed);
-
+            sm.AddKey("NoteColor", ScriptComponent.GetComponent<FormColorPicker>().NoteColor);
+            sm.AddKey("BackgroundColor", ScriptComponent.GetComponent<FormColorPicker>().BackgroundColor);
             Directory.CreateDirectory(rootDrive + "\\osu!keyoverlay\\");
             sm.Save_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
             OverrideKeyText();
+            OverrideUI();
+        }
+
+        public void LoadSettings()
+        {
+            sm.Read_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
+            K1 = sm.GetKey("k1");
+            K2 = sm.GetKey("k2");
+            speed = sm.GetKey_float("speed");
+            SpeedSlider.value = speed;
+            ScriptComponent.GetComponent<watcher>().Key1 = K1;
+            ScriptComponent.GetComponent<watcher>().Key2 = K2;
+            ScriptComponent.GetComponent<FormColorPicker>().NoteColor = sm.GetKey("NoteColor");
+            ScriptComponent.GetComponent<FormColorPicker>().BackgroundColor = sm.GetKey("BackgroundColor");
+            OverrideKeyText();
+            OverrideUI();
+        }
+
+        public void CreateSettings()
+        {
+            sm.Clear_Data();
+            sm.AddKey("k1", "Y");
+            sm.AddKey("k2", "X");
+            speed = 0.1f;
+            SpeedSlider.value = speed;
+            sm.AddKey("speed", speed);
+            sm.AddKey("NoteColor", "#ffffff");
+            sm.AddKey("BackgroundColor", "#000000");
+            K1 = "X";
+            K2 = "Y";
+            ScriptComponent.GetComponent<watcher>().Key1 = K1;
+            ScriptComponent.GetComponent<watcher>().Key2 = K2;
+            ScriptComponent.GetComponent<FormColorPicker>().NoteColor = "#ffffff";
+            ScriptComponent.GetComponent<FormColorPicker>().BackgroundColor = "#000000";
+            Directory.CreateDirectory(rootDrive + "\\osu!keyoverlay\\");
+            sm.Save_Data(rootDrive + "\\osu!keyoverlay\\settings.txt");
+            OverrideKeyText();
+        }
+
+        public void ToggleDebug()
+        {
+            DebugContainer.SetActive(DebugToggle.isOn);
+        }
+
+        public void OverrideUI()
+        {
+            ColorUtility.TryParseHtmlString(ScriptComponent.GetComponent<FormColorPicker>().BackgroundColor, out BGcolor);
+            MainCamera.backgroundColor = BGcolor;
         }
     }
 }

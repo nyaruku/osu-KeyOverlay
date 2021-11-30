@@ -1,15 +1,19 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class gameobjectScript : MonoBehaviour
 {
     public bool end = false;
     public float _speed;
     public GameObject scripts;
+    public Color NoteColor;
+
     private void FixedUpdate()
     {
         if (this.GetComponent<RectTransform>().position.y > 600)
         {
             Destroy(this.gameObject);
+            return;
         }
 
         if (end)
@@ -28,19 +32,20 @@ public class gameobjectScript : MonoBehaviour
             else
             {
                 this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, this.GetComponent<RectTransform>().sizeDelta.y + _speed);
+                return;
             }
         }
         if (this.name == "2")
         {
             if (scripts.GetComponent<watcher>().K2 == false)
             {
-                
                 end = true;
                 return;
             }
             else
             {
                 this.GetComponent<RectTransform>().sizeDelta = new Vector2(this.GetComponent<RectTransform>().sizeDelta.x, this.GetComponent<RectTransform>().sizeDelta.y + _speed);
+                return;
             }
         }
     }
@@ -49,6 +54,9 @@ public class gameobjectScript : MonoBehaviour
     private void Start()
     {
         scripts = GameObject.Find("scripts");
+
+        ColorUtility.TryParseHtmlString(scripts.GetComponent<FormColorPicker>().NoteColor, out NoteColor);
+        this.GetComponent<Image>().color = NoteColor;
         _speed = scripts.GetComponent<Programm.Programm>().speed;
     }
 }
