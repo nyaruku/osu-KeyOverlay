@@ -59,8 +59,8 @@
     <Compile Include="Assets\GlobalKeyBoardHook.cs" />
     <Compile Include="Assets\Programm.cs" />
     <Compile Include="Assets\gameobjectScript.cs" />
-    <Compile Include="Assets\watcher.cs" />
     <Compile Include="Assets\FormColorPicker.cs" />
+    <Compile Include="Assets\watcher.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\System.Drawing.dll" />
@@ -295,11 +295,11 @@
     <Reference Include="System.Windows.Forms">
       <HintPath>Assets\System.Windows.Forms.dll</HintPath>
     </Reference>
-    <Reference Include="SaveManager">
-      <HintPath>Assets\SaveManager.dll</HintPath>
-    </Reference>
     <Reference Include="System.Drawing">
       <HintPath>Assets\System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="SaveManager">
+      <HintPath>Assets\SaveManager.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Editor\Data\MonoBleedingEdge\lib\mono\4.7.1-api\mscorlib.dll</HintPath>

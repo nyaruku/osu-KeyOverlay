@@ -10,6 +10,7 @@ public partial class watcher : MonoBehaviour
     public string Key1 = "none", Key2 = "none";
     public Text ky1, ky2;
     public GameObject Object1, Object2, ParrentObject;
+   
 
     private GlobalKeyboardHook _globalKeyboardHook;
 
@@ -72,7 +73,7 @@ public partial class watcher : MonoBehaviour
 
         if (e.KeyboardState == GlobalKeyboardHook.KeyboardState.KeyUp)
         {
-            // Now you can access both, the key and virtual code
+           
             Keys loggedKey = e.KeyboardData.Key;
             int loggedVkCode = e.KeyboardData.VirtualCode;
 
@@ -94,7 +95,7 @@ public partial class watcher : MonoBehaviour
     private void Start()
     {
         ParrentObject = GameObject.Find("keycanvas");
-        UnityEngine.Application.targetFrameRate = 727;
+      
         BeginnHook();
     }
 }

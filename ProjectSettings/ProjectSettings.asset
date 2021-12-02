@@ -128,7 +128,17 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleVersion: 1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 3152451388343017081, guid: 3e74fbc4aeb56034dac05783c6f0627d, type: 3}
+  - {fileID: 5508281069918560010, guid: ddceb6cf5d0fd6949942a5e24b1188a6, type: 3}
+  - {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+  - {fileID: 11500000, guid: 1e7d5573e90e34a4294cab018e1cf980, type: 3}
+  - {fileID: 11500000, guid: 1fa8dcd726b1f2c4b88a342bed574514, type: 3}
+  - {fileID: 11500000, guid: 1b728fbc84b11f84bb08ba1f3fff02f2, type: 3}
+  - {fileID: 11500000, guid: 6a8537b81123f784f859746e555aa768, type: 3}
+  - {fileID: -1121539586, guid: fe05c1e1aa78bd7498e50a98822fec84, type: 3}
+  - {fileID: -1121539586, guid: 556148ef2500ed44196fb1c69b104fba, type: 3}
+  - {fileID: 2800000, guid: 171490326c1204d4cbbecd1a5bb8e99c, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -165,8 +175,8 @@ PlayerSettings:
   CreateWallpaper: 0
   APKExpansionFiles: 0
   keepLoadedShadersAlive: 0
-  StripUnusedMeshComponents: 0
-  VertexChannelCompressionMask: 4054
+  StripUnusedMeshComponents: 1
+  VertexChannelCompressionMask: -1
   iPhoneSdkVersion: 988
   iOSTargetOSVersionString: 11.0
   tvOSSdkVersion: 0
@@ -564,19 +574,20 @@ PlayerSettings:
   scriptingBackend:
     Standalone: 0
   il2cppCompilerConfiguration:
+    Standalone: 1
     WSA: 2
   managedStrippingLevel:
-    Standalone: 3
+    Standalone: 1
   incrementalIl2cppBuild: {}
   suppressCommonWarnings: 1
-  allowUnsafeCode: 0
+  allowUnsafeCode: 1
   useDeterministicCompilation: 1
   useReferenceAssemblies: 1
   enableRoslynAnalyzers: 1
   additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
-  assemblyVersionValidation: 1
+  assemblyVersionValidation: 0
   gcWBarrierValidation: 0
   apiCompatibilityLevelPerPlatform:
     Standalone: 3

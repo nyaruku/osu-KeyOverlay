@@ -7,6 +7,9 @@ public class gameobjectScript : MonoBehaviour
     public float _speed;
     public GameObject scripts;
     public Color NoteColor;
+    public bool inner = false;
+    public float Opacity=1f;
+    
 
     private void FixedUpdate()
     {
@@ -26,7 +29,9 @@ public class gameobjectScript : MonoBehaviour
         {
             if (scripts.GetComponent<watcher>().K1 == false)
             {
-                end = true;
+                
+                scripts.GetComponent<Programm.Programm>().Key1c++;
+                end = true;           
                 return;
             }
             else
@@ -39,7 +44,9 @@ public class gameobjectScript : MonoBehaviour
         {
             if (scripts.GetComponent<watcher>().K2 == false)
             {
-                end = true;
+             
+                scripts.GetComponent<Programm.Programm>().Key2c++;
+                end = true;           
                 return;
             }
             else
@@ -55,8 +62,16 @@ public class gameobjectScript : MonoBehaviour
     {
         scripts = GameObject.Find("scripts");
 
+        if (scripts.GetComponent<Programm.Programm>().StartInner.isOn)
+        {
+            this.GetComponent<RectTransform>().position = new Vector2(this.GetComponent<RectTransform>().position.x, this.GetComponent<RectTransform>().position.y - 66);
+        }
+        Opacity = scripts.GetComponent<Programm.Programm>().NoteOpacity;
+
         ColorUtility.TryParseHtmlString(scripts.GetComponent<FormColorPicker>().NoteColor, out NoteColor);
-        this.GetComponent<Image>().color = NoteColor;
+        Color TempNoteColor = NoteColor;
+        TempNoteColor.a = Opacity;
+        this.GetComponent<Image>().color = TempNoteColor;
         _speed = scripts.GetComponent<Programm.Programm>().speed;
     }
 }
